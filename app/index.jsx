@@ -7,6 +7,7 @@ import "./index.css";
 
 const App = () => {
     const [textAreaValue, setTextAreaValue] = useState("");
+    const [textAreaValueHtml, setTextAreaValueHtml] = useState("");
 
     const handleExportClick = () => {
         const doc = new Document();
@@ -35,18 +36,25 @@ const App = () => {
         })
     };
 
+    const handlePaste = (e) => {
+        setTextAreaValueHtml(e.clipboardData.getData("text/html"));
+    }
+
+    console.log(textAreaValueHtml);
+
     return (
         <div className="container">
             <div className="row">
                 <textarea 
                     className="column" 
                     onChange={(e) => setTextAreaValue(e.target.value)} 
+                    onPaste={handlePaste}
                     value={textAreaValue}
                 />
                 <div className="collumn column-left">
                     <fieldset>
                         <legend>Facebook Design</legend>
-                        <input type="radio" name="facebook_design" value="old" id="old"/>
+                        <input type="radio" name="facebook_design" value="old" id="old" defaultChecked/>
                         <label htmlFor="old">Old Facebook</label>
                         <br />
                         <input type="radio" name="facebook_design" value="new" id="new"/>
