@@ -8,6 +8,7 @@ import "./index.css";
 const App = () => {
     const [textAreaValue, setTextAreaValue] = useState("");
     const [textAreaValueHtml, setTextAreaValueHtml] = useState("");
+    const [filename, setFilename] = useState("");
 
     const handleExportClick = () => {
         const doc = new Document();
@@ -32,7 +33,7 @@ const App = () => {
         });
 
         Packer.toBlob(doc).then((blob) => {
-            saveAs(blob);
+            saveAs(blob, filename);
         })
     };
 
@@ -60,6 +61,15 @@ const App = () => {
                         <input type="radio" name="facebook_design" value="new" id="new"/>
                         <label htmlFor="new">New Facebook</label>
                     </fieldset>
+                    <label htmlFor="filename">Filename</label>
+                    <input 
+                        className="filename-input" 
+                        type="text" 
+                        id="filename" 
+                        placeholder={"e.g Orders-Nov23"}
+                        value={filename}
+                        onChange={(e) => setFilename(e.target.value)} 
+                    />
                     <button 
                         type="button" 
                         disabled={textAreaValue === ""}

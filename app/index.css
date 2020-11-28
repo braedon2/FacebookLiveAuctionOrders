@@ -31,3 +31,7 @@ textarea {
 .column-left {
     padding-left: 20px;
 }
+
+.filename-input {
+    display: block;
+}
