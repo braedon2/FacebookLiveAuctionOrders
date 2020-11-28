@@ -3,14 +3,23 @@ import ReactDOM from 'react-dom';
 import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from 'file-saver';
 
+import { parseOrders, parseProfileLinks } from "./utils/parse";
+
 import "./index.css";
 
 const App = () => {
     const [textAreaValue, setTextAreaValue] = useState("");
     const [textAreaValueHtml, setTextAreaValueHtml] = useState("");
+    const [design, setDesign] = useState("old");
     const [filename, setFilename] = useState("");
 
     const handleExportClick = () => {
+        const orders = parseOrders(textAreaValue);
+
+        // const profileLinks = parseProfileLinks(textAreaValueHtml);
+
+        // const doc = generateOrdersDock(orders, profileLinks);
+
         const doc = new Document();
 
         doc.addSection({
@@ -41,8 +50,6 @@ const App = () => {
         setTextAreaValueHtml(e.clipboardData.getData("text/html"));
     }
 
-    console.log(textAreaValueHtml);
-
     return (
         <div className="container">
             <div className="row">
@@ -55,10 +62,23 @@ const App = () => {
                 <div className="collumn column-left">
                     <fieldset>
                         <legend>Facebook Design</legend>
-                        <input type="radio" name="facebook_design" value="old" id="old" defaultChecked/>
+                        <input 
+                            type="radio" 
+                            name="facebook_design" 
+                            value="old" 
+                            id="old" 
+                            onClick={(e) => setDesign(e.target.value)}
+                            defaultChecked
+                        />
                         <label htmlFor="old">Old Facebook</label>
                         <br />
-                        <input type="radio" name="facebook_design" value="new" id="new"/>
+                        <input 
+                            type="radio" 
+                            name="facebook_design" 
+                            value="new" 
+                            id="new"
+                            onClick={(e) => setDesign(e.target.value)}
+                        />
                         <label htmlFor="new">New Facebook</label>
                     </fieldset>
                     <label htmlFor="filename">Filename</label>
