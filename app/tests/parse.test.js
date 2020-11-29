@@ -1,54 +1,38 @@
-import { TestScheduler } from "jest";
 import { parseOrders, parseProfileLinks } from "../utils/parse";
+import testData from "./testData";
 
-const newDesign1 = `
-Top Fan
-Kaleigh Dieterle
-  · 48:56
-I'm tempted to order 2 more just to get over 5 and screw with you lol
- · Reply · 6d
+test('new design, full comment section', () => {
+    const names = [
+        "Laura Frasher", "Jenee Powell", "Chip Kadlec", "Richard Radillo",
+        "Kaleigh Dieterle", "Linda Bakken", "Donna Halden", "Faizah Naeem",
+        "Melinda McGraw", "Jimmy Blanchette", "Leah Snyder",
+        "Brandi Gypsy Smith", "Jon Snow"
+    ];
 
-Top Fan
-Richard Radillo
-  · 48:11
-Sold 1 dragon $57.50
- · Reply · 6d
-Laura Frasher
-  · 48:08
-Sold 1 large dragon green 57.50
- · Reply · 6d
+    const orders = parseOrders(testData.newDesign1, "new");
 
-Top Fan
-Kaleigh Dieterle
-  · 47:58
-I ruined it for you lol
- · Reply · 6d
-
-Top Fan
-Kaleigh Dieterle
-  · 47:38
-Sold 2 large dragons @ $57.50 - 1 blue/green, 1 pink/purple
- · Reply · 6d
-Donna Funflower
-  · 47:15
-Wow great price
- · Reply · 6d
-Donna Halden
-  · 46:39
-Forgot about the ear's lol
- · Reply · 6d
-
-Top Fan
-Kaleigh Dieterle
-  · 46:49
-holy hell!
-`;
-
-
-
-test('new design', () => {
-    const orders = parseOrders(newDesign1, "new");
     console.log(orders);
     
-    expect(true).toBe(true);
+    expect(Object.keys(orders).sort()).toEqual(names.sort());
+    expect(orders["Laura Frasher"].length).toBe(15);
+    expect(orders["Jenee Powell"].length).toBe(3);
+    expect(orders["Chip Kadlec"].length).toBe(3);
+    expect(orders["Richard Radillo"].length).toBe(5);
+    expect(orders["Kaleigh Dieterle"].length).toBe(8);
+    expect(orders["Linda Bakken"].length).toBe(1);
+    expect(orders["Donna Halden"].length).toBe(4);
+    expect(orders["Faizah Naeem"].length).toBe(7);
+    expect(orders["Melinda McGraw"].length).toBe(2);
+    expect(orders["Jon Snow"].length).toBe(2);
+    expect(orders["Jimmy Blanchette"].length).toBe(2);
+    expect(orders["Leah Snyder"].length).toBe(2);
+    expect(orders["Brandi Gypsy Smith"].length).toBe(2);
+});
+
+test('new design, missing name', () => {
+    const orders = parseOrders(testData.newDesign2, "new");
+
+    console.log(orders);
+
+    expect(orders.warning).toBe('could not associate name with order: "1 large dragon rainbow 57.50"')
 });
