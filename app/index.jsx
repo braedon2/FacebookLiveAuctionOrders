@@ -50,6 +50,8 @@ const App = () => {
         setTextAreaValueHtml(e.clipboardData.getData("text/html"));
     }
 
+    console.log(textAreaValueHtml);
+
     return (
         <div className="container">
             <div className="row">

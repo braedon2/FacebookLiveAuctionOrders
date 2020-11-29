@@ -36,7 +36,7 @@ export const parseOrders = (rawCommentString, designType) => {
             if(name === undefined || name === "") {
                 orders.warning = `could not associate name with order: "${order}"`;
             }
-            if (!orders[name]) {
+            else if (!orders[name]) {
                 orders[name] = [order];
             }
             else {
@@ -47,6 +47,37 @@ export const parseOrders = (rawCommentString, designType) => {
     return orders;
 };
 
-export const parseProfileLinks = (rawCommentHtmlFragmentString) => {
+export const parseProfileLinks = (rawCommentHtmlFragmentString, names) => {
+    const parser = new DOMParser();
+    const htmlDoc = parser.parseFromString(rawCommentHtmlFragmentString, 'text/html');
+    const anchors = htmlDoc.querySelectorAll("a");
+    
+    const profilesToFind = [...names];
+    const profileLinks = {}
 
+    for (const anchor of Array.from(anchors)) {
+        for (name of profilesToFind) {
+            if (containsName(anchor, name)) {
+                profileLinks[name] = anchor.href;
+            }
+        }
+    }
+    
+    return profileLinks;
+};
+
+const containsName = (element, name) => {
+    // recursive step
+    if (element.nodeType === Node.ELEMENT_NODE) {
+        for (const child of element.childNodes) {
+            if (containsName(child, name)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    // base case
+    else if (element.nodeType === Node.TEXT_NODE) {
+        return name === element.nodeValue;
+    }
 };
