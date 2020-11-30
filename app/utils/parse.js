@@ -1,4 +1,14 @@
+import { HyperlinkType } from "docx";
 
+/* Takes a plaintext comment section of a facebook post and returns an object
+ * representing live auction orders grouped by name. Orders are identified 
+ * based on the keyword "sold" in the comment.
+ * 
+ * param designType: "new" or "old" depending if the comment-section string was
+ *   copied from the new or old facebook design
+ * 
+ * returned object has form {"name e.g John Smith": [list of orders], ...}
+ * */
 export const parseOrders = (rawCommentString, designType) => {
     const lines = rawCommentString.split("\n");
     const regex = new RegExp("sold", "i");
@@ -47,6 +57,13 @@ export const parseOrders = (rawCommentString, designType) => {
     return orders;
 };
 
+/* Takes a string representation of an html document copied from a facebook
+ * comment section (in this case an html fragment pasted from the clipboard) 
+ * and a list of names
+ *
+ * Returns an object whose keys are the names and whose values are the 
+ * facebook profile links
+ * */
 export const parseProfileLinks = (rawCommentHtmlFragmentString, names) => {
     const parser = new DOMParser();
     const htmlDoc = parser.parseFromString(rawCommentHtmlFragmentString, 'text/html');
@@ -58,7 +75,11 @@ export const parseProfileLinks = (rawCommentHtmlFragmentString, names) => {
     for (const anchor of Array.from(anchors)) {
         for (name of profilesToFind) {
             if (containsName(anchor, name)) {
-                profileLinks[name] = anchor.href;
+                profileLinks[name] = {
+                    link: anchor.href,
+                    text: "Profile link",
+                    type: HyperlinkType.EXTERNAL
+                }
             }
         }
     }
@@ -66,6 +87,8 @@ export const parseProfileLinks = (rawCommentHtmlFragmentString, names) => {
     return profileLinks;
 };
 
+// recursive function to determine if an element contains a text node
+// that matches name
 const containsName = (element, name) => {
     // recursive step
     if (element.nodeType === Node.ELEMENT_NODE) {

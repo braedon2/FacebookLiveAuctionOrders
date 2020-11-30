@@ -4,6 +4,7 @@ import { Document, Packer, Paragraph, TextRun } from "docx";
 import { saveAs } from 'file-saver';
 
 import { parseOrders, parseProfileLinks } from "./utils/parse";
+import generateOrdersDoc from "./utils/generate";
 
 import "./index.css";
 
@@ -14,32 +15,11 @@ const App = () => {
     const [filename, setFilename] = useState("");
 
     const handleExportClick = () => {
-        const orders = parseOrders(textAreaValue);
+        const orders = parseOrders(textAreaValue, design);
 
-        // const profileLinks = parseProfileLinks(textAreaValueHtml);
+        const profileLinks = parseProfileLinks(textAreaValueHtml, Object.keys(orders));
 
-        // const doc = generateOrdersDock(orders, profileLinks);
-
-        const doc = new Document();
-
-        doc.addSection({
-            properties: {},
-            children: [
-                new Paragraph({
-                    children: [
-                        new TextRun("Hello Worlddd\n"),
-                        new TextRun({
-                            text: "Foo Bar\n",
-                            bold: true,
-                        }),
-                        new TextRun({
-                            text: "\tGithub is the best",
-                            bold: true,
-                        }),
-                    ],
-                }),
-            ],
-        });
+        const doc = generateOrdersDoc(orders, profileLinks);
 
         Packer.toBlob(doc).then((blob) => {
             saveAs(blob, filename);
@@ -49,8 +29,6 @@ const App = () => {
     const handlePaste = (e) => {
         setTextAreaValueHtml(e.clipboardData.getData("text/html"));
     }
-
-    console.log(textAreaValueHtml);
 
     return (
         <div className="container">
