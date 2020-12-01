@@ -32,16 +32,34 @@ const App = () => {
 
     return (
         <div className="container">
+            <div className="title-section-container">
+                <h1 className="title">
+                    Generate Orders from Facebook Comments
+                </h1>
+                <a 
+                    href="https://github.com/braedon2/FacebookLiveAuctionOrders" 
+                    target="_blank" 
+                    rel="noopener noreferrer">
+                    Click here for instructions
+                </a>
+            </div>
             <div className="row">
-                <textarea 
-                    className="column" 
-                    onChange={(e) => setTextAreaValue(e.target.value)} 
-                    onPaste={handlePaste}
-                    value={textAreaValue}
-                />
-                <div className="collumn column-left">
-                    <fieldset>
-                        <legend>Facebook Design</legend>
+                <div className="card bg-light column">
+                    <h1 className="hd-large">Paste Comment Section</h1>
+                    <textarea 
+                        className="text-input" 
+                        onChange={(e) => setTextAreaValue(e.target.value)} 
+                        onPaste={handlePaste}
+                        value={textAreaValue}
+                    />
+                    <button className="btn">
+                        Clear
+                    </button>
+                </div>
+                <div className="card column bg-light column-left">
+                    <h1 className="hd-large">Export to Word Document</h1>
+                    <div className="inputs-container">
+                        <h2 className="hd-small">Facebook Design</h2>
                         <input 
                             type="radio" 
                             name="facebook_design" 
@@ -60,17 +78,21 @@ const App = () => {
                             onClick={(e) => setDesign(e.target.value)}
                         />
                         <label htmlFor="new">New Facebook</label>
-                    </fieldset>
-                    <label htmlFor="filename">Filename</label>
-                    <input 
-                        className="filename-input" 
-                        type="text" 
-                        id="filename" 
-                        placeholder={"e.g Orders-Nov23"}
-                        value={filename}
-                        onChange={(e) => setFilename(e.target.value)} 
-                    />
+                        <br />
+                    </div>
+                    <div className="inputs-container">
+                        <label htmlFor="filename">Filename</label>
+                        <input 
+                            className="filename-input text-input" 
+                            type="text" 
+                            id="filename" 
+                            placeholder={"e.g Orders-Nov23"}
+                            value={filename}
+                            onChange={(e) => setFilename(e.target.value)} 
+                        />
+                    </div>
                     <button 
+                        className="btn"
                         type="button" 
                         disabled={textAreaValue === ""}
                         onClick={handleExportClick}>

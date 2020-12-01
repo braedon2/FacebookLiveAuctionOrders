@@ -5,12 +5,24 @@ html, body, #app {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
 }
 
 textarea {
     resize: none;
-    height: 800px;
+    height: 600px;
+    width: 500px;
+    margin-bottom: 12px;
+}
+
+label {
+    color: #343a40;
+    font-size: 18px;
+}
+
+a {
+    color: #1b1d25;
+    font-size: 18px;
 }
 
 .container {
@@ -21,11 +33,49 @@ textarea {
 
 .row {
     display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
     flex-flow: row wrap;
 }
 
+.card {
+    border-radius: 5px;
+    margin: 16px;
+    padding: 16px;
+}
+
+.bg-light {
+    background-color: rgba(0, 0, 0, 0.08);
+}
+
+.title {
+    font-size: 48px;
+    margin: 0 0 8px 0;
+    font-weight: normal;
+    color: #1b1d25;
+}
+
+.title-section-container {
+    margin: 0 0 32px 0;
+    text-align: center;
+}
+
+.hd-large {
+    font-size: 36px;
+    font-weight: 300;
+    margin: 0 0 16px 0;
+    color: #343a40
+}
+
+.hd-small {
+    font-size: 24px;
+    font-weight: 350;
+    margin: 0 0 8px 0;
+    color: #343a40
+}
+
 .column {
-    flex: 0 0 50%;
+    flex: 0 0 auto;
 }
 
 .column-left {
@@ -34,4 +84,34 @@ textarea {
 
 .filename-input {
     display: block;
+}
+
+.btn {
+    display: block;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    padding: 12px;
+    cursor: pointer;
+}
+
+.btn:disabled {
+    background: #cfcfcf;
+    color: #a3a3a3;
+    cursor: unset;
+}
+
+.inputs-container {
+    margin-bottom: 16px;
+}
+
+.text-input {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 3px;
+    border: none;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
+    font: inherit;
 }
