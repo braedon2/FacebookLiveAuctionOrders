@@ -26,6 +26,11 @@ const App = () => {
         })
     };
 
+    const handleClearClick = () => {
+        setTextAreaValue("");
+        setTextAreaValueHtml("");
+    }
+
     const handlePaste = (e) => {
         setTextAreaValueHtml(e.clipboardData.getData("text/html"));
     }
@@ -52,7 +57,10 @@ const App = () => {
                         onPaste={handlePaste}
                         value={textAreaValue}
                     />
-                    <button className="btn">
+                    <button 
+                        className="btn"
+                        onClick={handleClearClick}    
+                    >
                         Clear
                     </button>
                 </div>
