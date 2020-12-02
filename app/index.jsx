@@ -13,22 +13,33 @@ const App = () => {
     const [textAreaValueHtml, setTextAreaValueHtml] = useState("");
     const [design, setDesign] = useState("old");
     const [filename, setFilename] = useState("");
+    const [error, setError] = useState(null);
 
     const handleExportClick = () => {
-        const orders = parseOrders(textAreaValue, design);
+        try {
+            const orders = parseOrders(textAreaValue, design);
+            const profileLinks = parseProfileLinks(textAreaValueHtml, Object.keys(orders));
+            const doc = generateOrdersDoc(orders, profileLinks);
 
-        const profileLinks = parseProfileLinks(textAreaValueHtml, Object.keys(orders));
+            // some poor naming here but I don't feel like changing it
+            if (orders.warning) {
+                setError(orders.warning);
+            }
 
-        const doc = generateOrdersDoc(orders, profileLinks);
-
-        Packer.toBlob(doc).then((blob) => {
-            saveAs(blob, filename);
-        })
+            Packer.toBlob(doc).then((blob) => {
+                saveAs(blob, filename);
+            })
+        }
+        catch (error) {
+            console.error(error);
+            setError("There was an error creating the word document")
+        }
     };
 
     const handleClearClick = () => {
         setTextAreaValue("");
         setTextAreaValueHtml("");
+        setError(null);
     }
 
     const handlePaste = (e) => {
@@ -64,7 +75,7 @@ const App = () => {
                         Clear
                     </button>
                 </div>
-                <div className="card column bg-light column-left">
+                <div className="card column bg-light column-right">
                     <h1 className="hd-large">Export to Word Document</h1>
                     <div className="inputs-container">
                         <h2 className="hd-small">Facebook Design</h2>
@@ -106,6 +117,8 @@ const App = () => {
                         onClick={handleExportClick}>
                         Export to Word
                     </button>
+                    {error && <p className="error">{error}</p>}
+                    {}
                 </div>
             </div>
         </div>

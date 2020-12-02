@@ -44,7 +44,7 @@ export const parseOrders = (rawCommentString, designType) => {
             const order = line.replace(regex, "").trim();
 
             if(name === undefined || name === "") {
-                orders.warning = `could not associate name with order: "${order}"`;
+                orders.warning = `Warning could not associate name with order: "${order}.\nOrders might not have been generated "`;
             }
             else if (!orders[name]) {
                 orders[name] = [order];
