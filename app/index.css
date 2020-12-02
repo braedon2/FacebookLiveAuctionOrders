@@ -10,14 +10,14 @@ body {
 
 textarea {
     resize: none;
-    height: 600px;
+    height: 500px;
     width: 500px;
     margin-bottom: 12px;
 }
 
 label {
     color: #343a40;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 a {
@@ -95,6 +95,10 @@ a {
     font-size: 18px;
     padding: 12px;
     cursor: pointer;
+}
+
+.btn:hover {
+    background-color: rgba(0, 0, 0, 0.75);
 }
 
 .btn:disabled {
