@@ -27,19 +27,22 @@ const generateOrdersDoc = (orders, profileLinks) => {
         });
     });
 
-    const tableRows = [];
-    let currentRow = [];
-    for (const cell of tableCells) {        
-        if (currentRow.length === 2) {
-            tableRows.push(
-                new TableRow({
-                    children: currentRow,
-                    cantSplit: true
-                })
-            );
-            currentRow = [];
+    // group the table cells into pairs so that the table has two cells per row
+    const pairs = tableCells.reduce((result, _, index, array) => {
+        if (index % 2 === 0) {
+            result.push(array.slice(index, index + 2));
         }
-        currentRow.push(cell);
+        return result;
+    }, []);
+
+    const tableRows = [];
+    for (const pair of pairs) {
+        tableRows.push(
+            new TableRow({
+                children: pair,
+                cantSplit: true
+            })
+        );
     }
 
     const table = new Table({

@@ -10,6 +10,17 @@ import { HyperlinkType } from "docx";
  * returned object has form {"name e.g John Smith": [list of orders], ...}
  * */
 export const parseOrders = (rawCommentString, designType) => {
+    if (designType == "old") 
+        return parseOldDesign(rawCommentString);
+    if (designType == "new")
+        return parseNewDesign(rawCommentString);
+};
+
+const parseOldDesign = (rawCommentHtmlFragmentString) => {
+    throw "The old design is not supported right now";
+};
+
+const parseNewDesign = (rawCommentString) => {
     const lines = rawCommentString.split("\n");
     const regex = new RegExp("sold", "i");
     const orders = {};
@@ -75,6 +86,9 @@ export const parseProfileLinks = (rawCommentHtmlFragmentString, names) => {
     for (const anchor of Array.from(anchors)) {
         for (name of profilesToFind) {
             if (containsName(anchor, name)) {
+                // this produces the shape of the object needed by the docx
+                // library to display the links. would be more elegant if this
+                // file didn't use the docx library 🤷
                 profileLinks[name] = {
                     link: anchor.href,
                     text: "Profile link",
